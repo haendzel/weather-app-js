@@ -4,8 +4,8 @@ const temp = document.querySelector(".temp-value p");
 const desc = document.querySelector(".temp-desc p");
 const zone = document.querySelector(".location p");
 
-const KELVIN = 273; 
-const key = "dec1d47427fe0c30ef917e4f5d0685ce"; //api key
+const kelvin = 273; 
+const key = "b5a3cbfba158fdfca9ef2456457088c0"; //api key
 
 // const weather = {
 //     temperature: {
@@ -20,13 +20,15 @@ const key = "dec1d47427fe0c30ef917e4f5d0685ce"; //api key
 
 const weather = {};
 
+//check support browser
 if ('geolocation' in navigator) {
-    navigator.geolocation.getCurrentPosition(setPosition, showError);
+    navigator.geolocation.getCurrentPosition(setCoordinates, showError);
 } else {
     notification.style.display = 'block';
     notification.innerHTML = "<p>Your browser not support geolocation!</p>"
 }
 
+//set user coordinates
 function setCoordinates(position) {
     let latitude = position.coords.latitude;
     let longitude = position.coords.longitude;
@@ -38,6 +40,7 @@ function showError(error) {
     notification.innerHTML = `<p>${error.message}</p>`;
 }
 
+//get weather from api data
 function getWeather(latitude, longitude) {
     let api = `http://api.openweathermap.org/data/2.5/weather?latitude=${latitude}&longitude=${longitude}&appid=${key}`;
     fetch(api).then(function(response){
@@ -45,9 +48,9 @@ function getWeather(latitude, longitude) {
         return data;
     })
     .then(function(data){
-        weather.temperature.value = Math.floor(data.main.temp - KELVIN);
+        weather.temperature.value = Math.floor(data.main.temp - kelvin);
         weather.description = data.weather[0].description;
-        weather.icon = data.weather.description;
+        weather.icon = data.weather[0].icon;
         weather.city = data.name;
         weather.country = data.sys.country;
     })
@@ -56,11 +59,10 @@ function getWeather(latitude, longitude) {
     });
 }
 
+//display in web
 function displayWeather() {
     iconWeather.innerHTML = `<img src="icons/${weather.icon}.svg"/>`;
     temp.innerHTML = `${weather.temperature.value}°<span>C</span>`;
     desc.innerHTML = weather.description;
     zone.innerHTML = `${weather.city}, ${weather.country}`;
-}
-
-//displayWeather();
+};
