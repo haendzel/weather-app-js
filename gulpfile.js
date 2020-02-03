@@ -19,6 +19,7 @@ const config = {
         scss: './src/sass/**/*.scss',
         fonts: './src/fonts/*',
         images: './src/images/*.*',
+        icons: './src/icons/*.*',
         html: './src/*.html',
         php: './src/*.php'
     },
@@ -27,7 +28,8 @@ const config = {
         js: './dist/js',
         css: './dist/css/',
         fonts: './dist/fonts',
-        images: './dist/images'
+        images: './dist/images',
+        icons: './dist/icons'
     },
     extraBundles: [
         './dist/main.js',
@@ -71,6 +73,12 @@ function imagesTask(done) {
     done();
 }
 
+function iconsTask(done) {
+    src(config.app.icons)
+        .pipe(dest(config.dist.icons))
+    done();
+}
+
 function templateTask(done) {
     src(config.app.html)
         .pipe(dest(config.dist.base))
@@ -88,6 +96,7 @@ function watchFiles() {
     watch(config.app.scss, series(cssTask, reload));
     watch(config.app.fonts, series(fontTask, reload));
     watch(config.app.images, series(imagesTask, reload));
+    watch(config.app.icons, series(iconsTask, reload));
     watch(config.app.html, series(templateTask, reload));
     watch(config.app.php, series(phpTask, reload));
 }
@@ -110,5 +119,5 @@ function cleanUp() {
     return del([config.dist.base]);
 }
 
-exports.dev = parallel(jsTask, cssTask, fontTask, imagesTask, templateTask, phpTask, watchFiles, liveReload);
-exports.build = series(cleanUp, parallel(jsTask, cssTask, fontTask, imagesTask, templateTask, phpTask));
+exports.dev = parallel(jsTask, cssTask, fontTask, imagesTask, iconsTask, templateTask, phpTask, watchFiles, liveReload);
+exports.build = series(cleanUp, parallel(jsTask, cssTask, fontTask, imagesTask, iconsTask, templateTask, phpTask));
