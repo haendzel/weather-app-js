@@ -5,7 +5,7 @@ body { font-family: 'Roboto', sans-serif; height: 100vh; width: auto; background
 .container { position: absolute; background: white; padding: 15px; top: 50%; left: 50%; height: auto; border-radius: 7px; transform: translate(-50%, -50%); box-shadow: 22px 37px 68px -33px rgba(0,0,0,0.5);}
 
 .icon-weather { text-align: center; fill: white !important;
-    img { height: 256px; width: auto; fill: white !important; }
+    img { height: 200px; width: auto; fill: white !important; }
 }
 
 .app-title { font-size: 17px; text-align: center; }
