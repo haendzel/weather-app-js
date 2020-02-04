@@ -41,11 +41,11 @@ function showError(error) {
 function getWeather(latitude, longitude) {
     let api = 'http://api.openweathermap.org/data/2.5/weather?lat=' + latitude + '&lon=' + longitude + '&appid=' + key;
     fetch(api).then(response => {
-        //console.log(response.status);
+        console.log(response.status);
         let data = response.json();
         return data;
     })
-    .then(data => {
+    .then((data) => {
         weather.temperature = Math.floor(data.main.temp - kelvin);
         weather.description = data.weather[0].description;
         weather.icon = data.weather[0].icon;
